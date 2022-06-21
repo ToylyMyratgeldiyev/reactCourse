@@ -1,62 +1,31 @@
 import React from "react";
-
+import { Posts } from "./Components/posts";
 class App extends React.Component {
  constructor(props){
   super(props);
   this.state = {
-    timer:0,
-    pause:false,
+    posts:[
+      {id:'abc1',name:'JS Basics', viewText : true},
+      {id:'abc2',name:'JS Advanced', viewText : true},
+      {id:'abc3',name:'React JS', viewText : true},
+
+    ]
   }
  }
 
-
- componentDidUpdate(){
-  localStorage.setItem('timer', this.state.timer)
- }
-
- componentDidMount(){
-  let userCount = localStorage.getItem('timer')
-  if(userCount){
-    this.setState({timer: +userCount})
-  }
- }
-
- handlerStart = () => {
-  this.setState({pause:true})
-  this.countredId = setInterval(()=>{
-    this.setState({timer : this.state.timer + 1})
-  },1000)
-  console.log(this.state.pause);
- }
-
- handlerStop = () =>{
-  this.setState({pause:false})
-  clearInterval(this.countredId)
- }
-
- handlerReset = () =>{
-  this.setState({pause:false})
-  this.setState({timer: 0})
-  clearInterval(this.countredId)
- }
+ removePost = (id) =>{
+  this.setState({posts:this.state.posts.filter(post => (post.id !== id))})
+ }  
 
  render(){
-  return(
+  return (
     <div>
-      <h1>React Timer</h1>
-      <h4>{this.state.timer}</h4>
-      {!this.state.pause ? (
-        <button onClick={this.handlerStart}>Start</button>
-      ) : (
-        <button onClick={this.handlerStop}>Stop</button>
-      )}
-
-      <button onClick={this.handlerReset}>Reset</button>
+      <Posts posts={this.state.posts} removePost={this.removePost}/>
     </div>
   )
  }
 
 }
-
+ 
 export default App;
  
